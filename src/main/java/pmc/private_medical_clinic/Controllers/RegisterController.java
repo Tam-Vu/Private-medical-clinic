@@ -21,7 +21,7 @@ import pmc.private_medical_clinic.Entity.User;
 import pmc.private_medical_clinic.Services.UserService;
 
 
-@RestController
+@Controller
 @Slf4j
 public class RegisterController {
 

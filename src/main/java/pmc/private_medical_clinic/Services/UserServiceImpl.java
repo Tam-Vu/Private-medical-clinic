@@ -1,7 +1,7 @@
 package pmc.private_medical_clinic.Services;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
+//import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import pmc.private_medical_clinic.Dto.UserDto;
 import pmc.private_medical_clinic.Entity.ResponeInfo;
@@ -14,15 +14,16 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepo userRepo;
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+//    @Autowired
+//    private PasswordEncoder passwordEncoder;
 
     @Override
     public User registerUser(UserDto userDto) {
         User user = new User();
         user.setHoTen(userDto.getHoTen());
         user.setTenDangNhap(userDto.getTenDangNhap());
-        user.setMatKhau(passwordEncoder.encode(userDto.getMatKhau()));
+//        user.setMatKhau(passwordEncoder.encode(userDto.getMatKhau()));
+        user.setMatKhau(userDto.getMatKhau());
         user.setMaNhom(userDto.getMaNhom());
         user.setEmail(userDto.getEmail());
         userRepo.save(user);
