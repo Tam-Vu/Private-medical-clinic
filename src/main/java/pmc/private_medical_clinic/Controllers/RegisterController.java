@@ -56,19 +56,5 @@ public class RegisterController {
 //        return "login.html";
 //    }
 
-//    @PostMapping("/login")
-//    public String login(@RequestBody UserDto userDto) {
-//
-//        boolean email = userService.checkByEmail(userDto.getEmail());
-//        boolean username = userService.checkByTenDangNhap(userDto.getTenDangNhap());
-//        boolean password = userService.checkPassword(userDto.getEmail(), userDto.getMatKhau());
-//         if(!(email||username)) {
-//            return "sai tai khoan hoac email";
-//         }
-//         if(password) {
-//            return "dang nhap thanh cong";
-//         }
-//            return "hello";
-//    }
 }
 

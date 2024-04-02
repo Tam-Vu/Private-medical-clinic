@@ -17,10 +17,18 @@ public class Medicine {
     private long thuocId;
     @Column(length = 50)
     private String tenThuoc;
-    private int maDonVi;
     private long donGia;
     private long soLuong;
     @Column(name = "image", columnDefinition = "TEXT")
     private String image;
     private boolean isDeleted;
+    @ManyToOne (
+            cascade = CascadeType.ALL,
+            fetch = FetchType.EAGER
+    )
+    @JoinColumn (
+            name = "maDonVi",
+            referencedColumnName = "donViId"
+    )
+    private Unit unit;
 }

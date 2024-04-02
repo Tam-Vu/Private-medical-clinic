@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:replace="Components/html-head :: html_head">
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div class="row">
+        <div th:replace="Components/left-bar :: left-bar"></div>
+
+        <section class="col-md-10">
+            <div layout:fragment="content">
+
+            </div>
+        </section>
+    </div>
+
+
+
+</body>
+</html>

@@ -38,7 +38,7 @@ public class MedicineController {
     }
 
     @ResponseBody
-    @PutMapping("delete/{id}")
+    @PostMapping("delete/{id}")
     public Medicine deletedMedicine(@PathVariable("id") Long medicineId) {
         return medicineService.deleteMedicine(medicineId);
     }

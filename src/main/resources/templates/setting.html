@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns="http://www.w3.org/1999/html"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{layout/2-part-layout.html}">
+<body>
+    <section class="row" layout:fragment="content">
+        <h4>Setting</h4>
+        <div class="container" style="width: 80%">
+            <nav>
+                <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
+                    <button class="nav-link active" id="nav-general-tab" data-bs-toggle="tab"
+                            data-bs-target="#nav-general" type="button" role="tab" aria-controls="nav-general"
+                            aria-selected="true">
+                        General
+                    </button>
+
+                    <button class="nav-link" id="nav-password-tab" data-bs-toggle="tab"
+                            data-bs-target="#nav-password" type="button" role="tab" aria-controls="nav-password"
+                            aria-selected="false">
+                        Password
+                    </button>
+
+                    <button class="nav-link" id="nav-principle-tab" data-bs-toggle="tab"
+                            data-bs-target="#nav-principle" type="button" role="tab" aria-controls="nav-principle"
+                            aria-selected="false">
+                        Principle
+                    </button>
+                </div>
+            </nav>
+            <div class="tab-content" id="nav-tabContent">
+                <div class="tab-pane fade show active p-3" id="nav-general" role="tabpanel"
+                     aria-labelledby="nav-general-tab">
+                    <form th:action="@{/principle/update-infomation}" method="post" th:object="${user}">
+                        <div class="general-setting-container">
+                            <h3 class="mb-4 bold" style="font-size: 14px; color: var(--nomal-text)">Update your avatar and personal information here</h3>
+<!--                            họ tên người dùng-->
+                            <div class="border border-top-1 border-bottom-1 p-3 d-flex justify-content-between align-items-center general-setting-name">
+                                <label for="name-setting" style="font-size: 15px">Name</label>
+                                <input th:field="*{hoTen}" type="text" id="name-setting" style="width: 800px; height: 25px; font-size: 15px" class="form-control">
+                            </div>
+
+                            <div class="border border-top-1 border-bottom-1 p-3 d-flex justify-content-between align-items-center general-setting-name">
+                                <label for="email-setting" style="font-size: 15px">Email</label>
+                                <input th:field="*{email}" type="email" id="email-setting" name="email" style="width: 800px; height: 25px; font-size: 15px" class="form-control">
+                            </div>
+
+                            <div class="border border-top-1 border-bottom-1 p-3 d-flex justify-content-between align-items-center general-setting-name">
+                                <label for="photo-setting" style="font-size: 15px">your photo</label>
+                                    <input type="image" id="photo-setting" name="anh" style="width: 800px; height: 100px; font-size: 15px" class="form-control">
+                            </div>
+
+                            <div class="border border-top-1 border-bottom-1 p-3 d-flex justify-content-between align-items-center general-setting-name">
+                                <label for="gender-setting" style="font-size: 15px">Gender</label>
+                                <select name="gioiTinh" class="form-select form-select-md pt-1" aria-label="Medium select example" id="gender-setting" style="width: 800px; height: 30px; font-size: 15px">
+                                    <option selected value="Nam">Male</option>
+                                    <option value="Nữ">Female</option>
+                                </select>
+                            </div>
+
+                            <div class="border border-top-1 border-bottom-1 p-3 d-flex justify-content-between align-items-center general-setting-name">
+                                <label for="country-setting" style="font-size: 15px">Country</label>
+                                <select name="queQuan" class="form-select form-select-md pt-1" aria-label="Medium select example" id="country-setting" style="width: 800px; height: 30px; font-size: 15px">
+                                    <option selected value="Vietnam">Vietnam</option>
+                                    <option value="America">America</option>
+                                    <option value="Frace">Frace</option>
+                                    <option value="England">England</option>
+                                    <option value="Finland">Finland</option>
+                                    <option value="Italy">Italy</option>
+                                    <option value="Canada">Canada</option>
+                                    <option value="Australia">Australia</option>
+                                </select>
+                            </div>
+
+                            <div class="border border-top-1 border-bottom-1 p-3 d-flex justify-content-between align-items-center general-setting-name">
+                                <label for="bio-setting" style="font-size: 15px">Bio</label>
+                                <textarea type="text" id="bio-setting" name="mieuTa" style="width: 800px; height: 150px; font-size: 15px" class="form-control"></textarea>
+                            </div>
+
+                            <div class="border border-top-1 border-bottom-1 p-3 d-flex justify-content-between align-items-center general-setting-name">
+                                <label for="birth-setting" style="font-size: 15px">Date Born</label>
+                                <input type="date" id="birth-setting" name="ngaySinh" style="width: 800px; height: 25px; font-size: 15px" class="form-control">
+                            </div>
+
+                            <div class="border border-top-1 border-bottom-1 p-3 d-flex justify-content-between align-items-center general-setting-name">
+                                <label for="phone-setting" style="font-size: 15px">Phone number</label>
+                                <input type="tel" id="phone-setting" name="soDienThoai" style="width: 800px; height: 25px; font-size: 15px" class="form-control">
+                            </div>
+
+                            <button type="submit" style="width: 800px" class="mt-3 btn btn-primary">update profile</button>
+                        </div>
+                    </form>
+                </div>
+                
+                <div class="tab-pane fade p-3" id="nav-password" role="tabpanel"
+                     aria-labelledby="nav-password-tab">
+                    <form class="d-flex flex-column align-items-center" th:action="@{/principle/change-password}" method="post" >
+                        <div class="mb-5" style="width: 100%">
+                            <label class="mb-2" for="password">Current password</label>
+                            <input type="password" class="form-control" id="password" name="password" required >
+                        </div>
+
+                        <div class="mb-5" style="width: 100%">
+                            <label class="mb-2" for="newPassword">New password</label>
+                            <input type="password" class="form-control" id="newPassword" name="newPassword" required >
+                        </div>
+
+                        <div class="mb-5" style="width: 100%">
+                            <label class="mb-2" for="repeatNewPassword">Retype password</label>
+                            <input type="password" class="form-control" id="repeatNewPassword" name="repeatNewPassword" required >
+                        </div>
+
+
+                        <div role="alert" th:if="${error}">
+                            <p th:text="${error}"></p>
+                        </div>
+
+                        <button type="submit" style="width: 400px" class="mt-3 btn btn-primary">Change password</button>
+                    </form>
+                </div>
+
+                <div class="tab-pane fade p-3" id="nav-principle" role="tabpanel"
+                     aria-labelledby="nav-principle-tab">
+                    <!--/*@thymesVar id="principle" type="java.util.Map"*/-->
+                    <div class="d-flex flex-column justify-content-around align-items-center">
+                        <form th:action="@{principle/change-principle}" method="post" style="width: 100%">
+                            <div class="d-flex align-items-center mb-5 justify-content-between">
+                                <label for="maxPatient">Số bệnh nhân tối đa</label>
+                                <input id="maxPatient" class="form-control" type="number" style="width: 150px"; required>
+                            </div>
+
+                            <div class="d-flex align-items-center mb-5 justify-content-between">
+                                <label for="money">Tiền viện phí cho mỗi người</label>
+                                <input id="money" class="form-control" type="number" style="width: 200px"; required>
+                            </div>
+
+                            <button type="submit" style="width: 400px" class="mt-3 btn btn-primary">Save</button>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    </section>
+</body>
+</html>

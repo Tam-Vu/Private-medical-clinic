@@ -7,6 +7,7 @@ import pmc.private_medical_clinic.Entity.ResponeInfo;
 import pmc.private_medical_clinic.Entity.User;
 import pmc.private_medical_clinic.Repositories.UserRepo;
 
+import java.security.Principal;
 import java.util.Optional;
 
 @Service
@@ -14,19 +15,13 @@ public interface UserService {
 
     User registerUser(UserDto userDto);
 
+    User updateInfo(UserDto userDto, Principal principal);
+
     User findByEmail(String email);
 
-    User findByTenDangNhap(String tenDangNhap);
+    User getUserByUsername(String tenDangNhap);
 
-    public Boolean checkByEmail(String email);
+    User findByUsername(String tenDangNhap);
 
-    boolean checkByTenDangNhap(String tenDangNhap);
-
-    boolean checkPassword(String email, String matKhau);
-
-//    public Boolean checkLogin(String tenDangNhapOrEmail, String matKhau) {
-//        Optional<User> userOptionalByUsername = UserRepo.findByTenDangNhapAndMatKhau(tenDangNhapOrEmail, matKhau);
-//        Optional<User> userOptionalByEmail = UserRepo.findByEmailAndMatKhau(tenDangNhapOrEmail, matKhau);
-//        return userOptionalByUsername.isPresent() || userOptionalByEmail.isPresent();
-//    }
+    User changePassword(UserDto userDto, Principal principal);
 }

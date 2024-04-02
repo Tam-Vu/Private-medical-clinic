@@ -22,7 +22,6 @@ public class MedicineServiceImpl implements MedicineService {
         medicine.setImage(medicineDto.getImage());
         medicine.setDonGia(medicineDto.getDonGia());
         medicine.setSoLuong(medicineDto.getSoLuong());
-        medicine.setMaDonVi(medicineDto.getMaDonVi());
         medicineRepo.save(medicine);
         return medicine;
     }
@@ -61,6 +60,9 @@ public class MedicineServiceImpl implements MedicineService {
                 !"".equalsIgnoreCase(medicineDto.getImage())) {
             updatedMedicine.setImage(medicineDto.getImage());
         }
+
+        updatedMedicine.setSoLuong(medicineDto.getSoLuong());
+        updatedMedicine.setDonGia(medicineDto.getDonGia());
         return medicineRepo.save(updatedMedicine);
     }
 
