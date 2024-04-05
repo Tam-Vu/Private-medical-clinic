@@ -3,7 +3,9 @@ package pmc.private_medical_clinic.Services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pmc.private_medical_clinic.Dto.MedicineDto;
+import pmc.private_medical_clinic.Dto.UnitDto;
 import pmc.private_medical_clinic.Entity.Medicine;
+import pmc.private_medical_clinic.Entity.Unit;
 import pmc.private_medical_clinic.Repositories.MedicineRepo;
 
 import java.util.List;
@@ -15,13 +17,14 @@ public class MedicineServiceImpl implements MedicineService {
     @Autowired
     private MedicineRepo medicineRepo;
     @Override
-    public Medicine saveMedicine(MedicineDto medicineDto) {
+    public Medicine saveMedicine(MedicineDto medicineDto, Unit unit) {
         Medicine medicine = new Medicine();
         medicine.setTenThuoc(medicineDto.getTenThuoc());
         medicine.setDeleted(false);
         medicine.setImage(medicineDto.getImage());
         medicine.setDonGia(medicineDto.getDonGia());
         medicine.setSoLuong(medicineDto.getSoLuong());
+        medicine.setUnit(unit);
         medicineRepo.save(medicine);
         return medicine;
     }

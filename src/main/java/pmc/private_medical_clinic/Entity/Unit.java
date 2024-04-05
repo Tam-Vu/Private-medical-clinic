@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import pmc.private_medical_clinic.Dto.UnitDto;
 
 @Entity
 @Data
@@ -13,6 +14,6 @@ import lombok.NoArgsConstructor;
 public class Unit {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int donViId;
+    private Integer donViId;
     private String tenDonVi;
 }

@@ -9,8 +9,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class MedicineDto {
+    private Long thuocId;
     private String tenThuoc;
-    private int maDonVi;
+    private UnitDto unitDto;
     private long donGia;
     private long soLuong;
     private String image;

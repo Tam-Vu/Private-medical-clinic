@@ -31,12 +31,6 @@ public class MedicineController {
         return medicineService.showMedicineNotDeletedById(medicineId);
     }
 
-    @PostMapping("/add")
-    public ResponseEntity<?> addMedicine(@RequestBody MedicineDto medicineDto) {
-        Medicine medicine = medicineService.saveMedicine(medicineDto);
-        return ResponseEntity.ok().build();
-    }
-
     @ResponseBody
     @PostMapping("delete/{id}")
     public Medicine deletedMedicine(@PathVariable("id") Long medicineId) {
