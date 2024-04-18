@@ -12,6 +12,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import pmc.private_medical_clinic.Entity.User;
 import pmc.private_medical_clinic.Repositories.UserRepo;
+import pmc.private_medical_clinic.failureHandler.GlobalExceptionHandler;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -26,7 +27,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepo.findByUsername(username);
+        User user = userRepo.findByUsername(username).orElseThrow(() -> new GlobalExceptionHandler("User not found"));;
         if(user == null) {
             throw new UsernameNotFoundException("User not found");
         }
