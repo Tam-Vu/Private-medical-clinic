@@ -9,10 +9,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserDto {
-    private String tenDangNhap;
-    private String matKhau;
-    private String nhapLaiMatKhau;
+    private String username;
+    private String password;
+    private String newPassword;
+    private String repeatNewPassword;
     private String hoTen;
     private String email;
     private long maNhom;
+    private String gioiTinh;
 }

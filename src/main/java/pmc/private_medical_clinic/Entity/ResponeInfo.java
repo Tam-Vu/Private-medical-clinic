@@ -3,7 +3,7 @@ package pmc.private_medical_clinic.Entity;
 public class ResponeInfo<T>{
     private int statusCode;
     private T data;
-    private String errorMessage;
+    private String message;
 
     public int getStatusCode() {
         return statusCode;
@@ -21,11 +21,11 @@ public class ResponeInfo<T>{
         this.data = data;
     }
 
-    public String getErrorMessage() {
-        return errorMessage;
+    public String getMessage() {
+        return message;
     }
 
-    public void setErrorMessage(String errorMessage) {
-        this.errorMessage = errorMessage;
+    public void setMessage(String message) {
+        this.message = message;
     }
 }

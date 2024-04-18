@@ -4,17 +4,18 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+//import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.GrantedAuthority;
 import pmc.private_medical_clinic.Entity.User;
 import pmc.private_medical_clinic.Repositories.UserRepo;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
-import java.util.List;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CustomUserDetails implements org.springframework.security.core.userdetails.UserDetails {
+public class CustomUserDetails implements UserDetails {
     @Autowired
     private UserRepo userRepo;
 
@@ -31,13 +32,14 @@ public class CustomUserDetails implements org.springframework.security.core.user
 
     @Override
     public String getPassword() {
-        return user.getMatKhau();
+        return user.getPassword();
     }
 
     @Override
     public String getUsername() {
-        return user.getTenDangNhap();
+        return user.getUsername();
     }
+
 
     @Override
     public boolean isAccountNonExpired() {
