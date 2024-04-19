@@ -4,9 +4,12 @@
  */
 package pmc.private_medical_clinic.Repositories;
 
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import pmc.private_medical_clinic.Entity.AppointmentList;
+
+import java.util.Date;
 
 
 /**
@@ -14,7 +17,7 @@ import pmc.private_medical_clinic.Entity.AppointmentList;
  * @author duyth
  */
 @Repository
-public interface AppointmentListRepo extends JpaRepository<AppointmentList, Long>{
+public interface AppointmentListRepo extends JpaRepository<AppointmentList, Long> {
     @Query("select m from AppointmentList m where m.scheduleDate = :scheduleDate")
     AppointmentList findScheduleByDate(Date scheduleDate);
 }
