@@ -52,12 +52,15 @@ public class AppointmentListRecordDetailServiceIml implements AppointmentListRec
         }
         AppointmentListRecord appointmentListRecord = new AppointmentListRecord();
         appointmentListRecord.setId(updateAppointmentListRecordDetailDto.getAppointmentListRecordId());
+        appointmentListRecordDetail.setAppointmentListRecord(appointmentListRecord);
 
         Medicine medicine = new Medicine();
         medicine.setThuocId(updateAppointmentListRecordDetailDto.getMedicineId());
+        appointmentListRecordDetail.setMedicine(medicine);
 
         Usage usage = new Usage();
         usage.setId(updateAppointmentListRecordDetailDto.getUsageId());
+        appointmentListRecordDetail.setUsage(usage);
 
         appointmentListRecordDetail.setQuantity(updateAppointmentListRecordDetailDto.getQuantity());
         appointmentListRecordDetailRepo.save(appointmentListRecordDetail);
