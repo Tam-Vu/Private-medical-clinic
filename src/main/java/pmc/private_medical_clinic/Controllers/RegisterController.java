@@ -24,6 +24,7 @@ import pmc.private_medical_clinic.Services.UserService;
 
 @RestController
 @Slf4j
+@CrossOrigin(origins = "*")
 public class RegisterController {
 
     @Autowired

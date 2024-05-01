@@ -18,7 +18,7 @@ import lombok.NoArgsConstructor;
 public class PatientDto {
    private String fullName;
    private String gender;
-   private Integer birthYear;
+   private Long birthYear;
    private String phoneNumber;
    private String address;
 }

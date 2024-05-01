@@ -20,4 +20,5 @@ public interface PatientService {
     Patient getPatientById(Long id);
     Patient updatePatientById(Long id, PatientDto patientDto);
     boolean deletePatientById(Long id);
+    Patient getPatientByPhoneNumber(String phoneNumber);
 }

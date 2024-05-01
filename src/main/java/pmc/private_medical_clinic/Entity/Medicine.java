@@ -29,7 +29,7 @@ public class Medicine {
     )
     @JoinColumn (
             name = "maDonVi",
-            referencedColumnName = "donViId"
+            referencedColumnName = "id"
     )
     private Unit unit;
 }

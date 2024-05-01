@@ -21,7 +21,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AndRequestMatcher;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-import pmc.private_medical_clinic.Services.AuthFilterService;
+//import pmc.private_medical_clinic.Services.AuthFilterService;
 import pmc.private_medical_clinic.Services.CustomUserDetailsService;
 import javax.sql.DataSource;
 
@@ -30,24 +30,40 @@ import javax.sql.DataSource;
 @EnableMethodSecurity
 public class WebSecurityConfig {
 
-    @Autowired
-    private AuthFilterService authFilterService;
+//    @Autowired
+//    private AuthFilterService authFilterService;
     @Autowired
     private AuthenticationProvider authenticationProvider;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+//        http
+//                .csrf(AbstractHttpConfigurer::disable)
+//                .authorizeHttpRequests(auth -> auth
+//                        .requestMatchers("/auth/**", "/register")
+//                        .permitAll()
+//                        .anyRequest()
+//                        .authenticated())
+//                .sessionManagement(session -> session
+//                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+//                .authenticationProvider(authenticationProvider);
+//                .addFilterBefore(authFilterService, UsernamePasswordAuthenticationFilter.class);
+        http.csrf(
+                csrf -> csrf.disable()
+        )
+                .authorizeHttpRequests(request -> request
+                .requestMatchers("/register", "/Images/**").permitAll()
+                .requestMatchers("/login", "Images/**").permitAll()
+                .anyRequest().permitAll());
         http
-                .csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/auth/**", "/register")
-                        .permitAll()
-                        .anyRequest()
-                        .authenticated())
-                .sessionManagement(session -> session
-                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authenticationProvider(authenticationProvider)
-                .addFilterBefore(authFilterService, UsernamePasswordAuthenticationFilter.class);
+                .formLogin(form -> form.loginPage("/login")
+                .loginProcessingUrl("/login")
+                .defaultSuccessUrl("/principle/setting").permitAll());
+        http
+                .logout(form -> form.invalidateHttpSession(true).clearAuthentication(true)
+                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                .logoutSuccessUrl("/login?logout").permitAll());
+
         return http.build();
     }
 }

@@ -10,7 +10,9 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import pmc.private_medical_clinic.Entity.Unit;
 
 /**
@@ -18,11 +20,13 @@ import pmc.private_medical_clinic.Entity.Unit;
  * @author duyth
  */
 @Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class AppointmentListPatientDto {
 
-    private Integer patientId;
-    private Integer appointmentListId;
+    private Long patientId;
+    private Long appointmentListId;
 
 }

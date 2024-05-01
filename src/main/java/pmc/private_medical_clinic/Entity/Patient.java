@@ -25,10 +25,10 @@ import lombok.NoArgsConstructor;
 public class Patient {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
     private String fullName;
     private String gender;
-    private Integer birthYear;
+    private Long birthYear;
     private String address;
     private String phoneNumber;
 }

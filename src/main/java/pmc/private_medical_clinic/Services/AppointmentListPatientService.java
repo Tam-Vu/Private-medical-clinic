@@ -20,6 +20,10 @@ public interface AppointmentListPatientService {
 
     List<AppointmentListPatient> getAllAppointmentList();
 
+    List<AppointmentListPatient> getByAppointmentListId(Long appointmentListId);
+
+    List<AppointmentListPatient> getByPatientId(Long patientId);
+
     AppointmentListPatient createAppointmentListPatient(AppointmentListPatientDto appointmentListPatientDto);
 
     AppointmentListPatient getAppointmentListPatientById(Long id);

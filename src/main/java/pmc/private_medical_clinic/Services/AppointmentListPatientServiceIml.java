@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package pmc.private_medical_clinic.Services;
+
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,10 +33,8 @@ public class AppointmentListPatientServiceIml implements AppointmentListPatientS
         AppointmentListPatient appointmentListPatient = new AppointmentListPatient();
         Patient patient = new Patient();
         patient.setId(appointmentListPatientDto.getPatientId());
-
         AppointmentList appointmentList = new AppointmentList();
         appointmentList.setId(appointmentListPatientDto.getAppointmentListId());
-
         appointmentListPatient.setAppointmentList(appointmentList);
         appointmentListPatient.setPatient(patient);
         appointmentListPatientRepo.save(appointmentListPatient);
@@ -72,4 +71,15 @@ public class AppointmentListPatientServiceIml implements AppointmentListPatientS
         }
         return null;
     }
+
+    @Override
+    public List<AppointmentListPatient> getByAppointmentListId(Long appointmentListId) {
+        return (List<AppointmentListPatient>) appointmentListPatientRepo.findByAppointmentListId(appointmentListId);
+    }
+
+    @Override
+    public List<AppointmentListPatient> getByPatientId(Long patientId) {
+        return (List<AppointmentListPatient>) appointmentListPatientRepo.findByPatientId(patientId);
+    }
+
 }

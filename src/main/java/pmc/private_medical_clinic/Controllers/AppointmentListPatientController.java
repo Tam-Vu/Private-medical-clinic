@@ -29,7 +29,7 @@ import pmc.private_medical_clinic.Services.AppointmentListService;
  */
 @RestController
 @RequestMapping("/api/v1/appointmentlistpatients")
-@CrossOrigin
+@CrossOrigin(origins = "*")
 public class AppointmentListPatientController {
 
     @Autowired
@@ -39,6 +39,19 @@ public class AppointmentListPatientController {
     @GetMapping("/")
     public List<AppointmentListPatient> getAllAppointmentList() {
         return appointmentListPatientService.getAllAppointmentList();
+    }
+
+
+    @ResponseBody
+    @GetMapping("/appointmentList/{appointmentListId}")
+    public List<AppointmentListPatient> getByAppointmentListId(@PathVariable("appointmentListId") Long appointmentListId) {
+        return appointmentListPatientService.getByAppointmentListId(appointmentListId);
+    }
+
+    @ResponseBody
+    @GetMapping("/patientId/{patientId}")
+    public List<AppointmentListPatient> getByPatientId(@PathVariable("patientId") Long patientId) {
+        return appointmentListPatientService.getByPatientId(patientId);
     }
 
     @ResponseBody
@@ -66,8 +79,8 @@ public class AppointmentListPatientController {
     }
 
     @ResponseBody
-    @GetMapping(value = "/{appointmentRecordId}")
-    public ResponseEntity<AppointmentListPatient> getAppointmentListPatientById(@PathVariable("appointmentRecordId") Long id) {
+    @GetMapping(value = "/{appointmentListPatientId}")
+    public ResponseEntity<AppointmentListPatient> getAppointmentListPatientById(@PathVariable("appointmentListPatientId") Long id) {
         return ResponseEntity.ok(appointmentListPatientService.getAppointmentListPatientById(id));
     }
 }
