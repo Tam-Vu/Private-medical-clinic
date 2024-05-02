@@ -34,10 +34,6 @@ public class PatientServiceIml implements PatientService {
 
     @Override
     public Patient createPatient(PatientDto patientDto) {
-        Patient existingPatient = patientRepo.findPatientByPhoneNumber(patientDto.getPhoneNumber());
-        if(existingPatient!=null)
-            return existingPatient;
-        
         Patient patient = new Patient();
         patient.setFullName(patientDto.getFullName());
         patient.setAddress(patientDto.getAddress());
@@ -74,6 +70,12 @@ public class PatientServiceIml implements PatientService {
             return true;
         }
         return false;
+    }
+
+    @Override
+    public Patient getPatientByPhoneNumber(String phoneNumber) {
+        Patient existingPatient = patientRepo.findPatientByPhoneNumber(phoneNumber);
+        return existingPatient;
     }
 
 }

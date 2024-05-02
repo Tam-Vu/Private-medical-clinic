@@ -31,6 +31,6 @@ public class AppointmentList {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
     private Date scheduleDate;
 }

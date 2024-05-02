@@ -14,10 +14,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-/**
- *
- * @author duyth
- */
 @Entity
 @Data
 @AllArgsConstructor
@@ -36,4 +32,6 @@ public class AppointmentListPatient {
     @ManyToOne
     @JoinColumn(name = "appointment_list_id")
     private AppointmentList appointmentList;
+    
+    
 }

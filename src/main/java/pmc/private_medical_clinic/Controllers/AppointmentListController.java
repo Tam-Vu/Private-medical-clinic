@@ -24,7 +24,7 @@ import pmc.private_medical_clinic.Services.AppointmentListService;
  */
 @RestController
 @RequestMapping("/api/v1/appointmentlists")
-@CrossOrigin
+@CrossOrigin(origins = "*")
 public class AppointmentListController {
     @Autowired
     private AppointmentListService appointmentListService;

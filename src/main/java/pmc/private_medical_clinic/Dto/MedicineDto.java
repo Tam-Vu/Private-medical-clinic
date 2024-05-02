@@ -11,9 +11,9 @@ import lombok.NoArgsConstructor;
 public class MedicineDto {
     private Long thuocId;
     private String tenThuoc;
-    private UnitDto unitDto;
+    private Long maDonVi;
     private long donGia;
     private long soLuong;
-    private String image;
+    private byte[] image;
     private boolean isDeleted;
 }

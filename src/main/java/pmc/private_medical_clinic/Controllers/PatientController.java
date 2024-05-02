@@ -27,7 +27,7 @@ import pmc.private_medical_clinic.Services.PatientService;
  */
 @RestController
 @RequestMapping("/api/v1/patients")
-@CrossOrigin
+@CrossOrigin(origins = "*")
 public class PatientController {
 
     @Autowired
@@ -37,6 +37,17 @@ public class PatientController {
     @GetMapping("/")
     public List<Patient> getAllPatients() {
         return patientService.getAllPatients();
+    }
+    
+      @ResponseBody
+    @GetMapping("/phoneNumber/{phoneNumber}")
+    public  ResponseEntity<Patient> getPatientByPhoneNumber(@PathVariable("phoneNumber") String phoneNumber) {
+        Patient patient = patientService.getPatientByPhoneNumber(phoneNumber);
+     if (patient != null) {
+            return ResponseEntity.ok(patient);
+        } else {
+            return ResponseEntity.ok(new Patient());
+        }
     }
 
     @ResponseBody
