@@ -9,14 +9,14 @@ import pmc.private_medical_clinic.Entity.User;
 import pmc.private_medical_clinic.Repositories.UserRepo;
 import pmc.private_medical_clinic.Services.UserService;
 
-@Controller
+@RestController
 public class Login_ResetPass {
 
     @Autowired
     private UserService userService;
 
-    @GetMapping("/login")
+    @GetMapping("/")
     public String login() {
-        return "login";
+        return "welcome";
     }
 }
