@@ -13,6 +13,7 @@ import pmc.private_medical_clinic.Services.*;
 
 @RequestMapping("/auth")
 @Controller
+@CrossOrigin(origins = "*")
 public class Login_ResetPass {
 
     @Autowired

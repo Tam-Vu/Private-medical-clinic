@@ -33,6 +33,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/principle")
+@CrossOrigin(origins = "*")
 public class PrincipleController{
 
     @Autowired

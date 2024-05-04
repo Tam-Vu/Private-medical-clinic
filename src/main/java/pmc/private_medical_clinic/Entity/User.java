@@ -38,9 +38,9 @@ public class User implements UserDetails {
     @Column(length = 60, name = "Email", unique = true)
     @Email
     private String email;
-
-    @Column(length = 60, name = "ma_nhom")
-    private long maNhom;
+    @ManyToOne
+    @JoinColumn(name = "usergroup_id")
+    private UserGroup maNhom;
 
     @JsonIgnore
     @OneToOne(mappedBy = "user")
