@@ -95,7 +95,6 @@ public class Login_ResetPass {
         ResponeInfo<AuthResponse> responeInfo = new ResponeInfo<>();
         try {
             AuthResponse refreshAccToken = new AuthResponse();
-
             RefreshToken refreshToken = refreshTokenService.verifyRefreshToken(refreshTokenDto.getRefreshToken());
             User user = refreshToken.getUser();
             String accessToken = jwtService.generateToken(user);
