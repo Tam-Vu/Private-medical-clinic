@@ -38,8 +38,8 @@ import javax.sql.DataSource;
 @Order(1)
 public class WebSecurityConfig {
 
-        // @Autowired
-        // private AuthFilterService authFilterService;
+        @Autowired
+        private AuthFilterService authFilterService;
         @Autowired
         private AuthenticationProvider authenticationProvider;
         @Autowired
