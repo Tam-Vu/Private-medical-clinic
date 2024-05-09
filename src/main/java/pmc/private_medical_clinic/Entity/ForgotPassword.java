@@ -25,7 +25,6 @@ public class ForgotPassword {
     @Column(nullable = false)
     private Date expirationTime;
 
-    @JsonIgnore
-    @OneToOne
+    @ManyToOne
     private User user;
 }
