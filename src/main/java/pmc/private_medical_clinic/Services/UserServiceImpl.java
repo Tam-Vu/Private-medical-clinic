@@ -8,6 +8,7 @@ import pmc.private_medical_clinic.Dto.AuthResponse;
 import pmc.private_medical_clinic.Dto.UserDto;
 import pmc.private_medical_clinic.Entity.ResponeInfo;
 import pmc.private_medical_clinic.Entity.User;
+import pmc.private_medical_clinic.Entity.UserGroup;
 import pmc.private_medical_clinic.Repositories.UserRepo;
 import pmc.private_medical_clinic.failureHandler.GlobalExceptionHandler;
 import pmc.private_medical_clinic.failureHandler.IncorrectPasswordException;
@@ -35,7 +36,9 @@ public class UserServiceImpl implements UserService {
         user.setHoTen(userDto.getHoTen());
         user.setUsername(userDto.getUsername());
         user.setPassword(passwordEncoder.encode(userDto.getPassword()));
-        user.setMaNhom(userDto.getMaNhom());
+        UserGroup group = new UserGroup();
+        group.setId(userDto.getMaNhom());
+        user.setMaNhom(group);
         user.setEmail(userDto.getEmail());
         userRepo.save(user);
 
