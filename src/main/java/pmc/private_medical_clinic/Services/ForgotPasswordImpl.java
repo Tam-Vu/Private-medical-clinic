@@ -33,13 +33,14 @@ public class ForgotPasswordImpl implements ForgotPasswordService{
         MailBody mailBody = MailBody.builder()
                 .to(email)
                 .text("this is a code for you to reset your password: " + otp)
-                .subject("OPT for reset password")
+                .subject("OTP for reset password")
                 .build();
         ForgotPassword forgotPassword = ForgotPassword.builder()
                 .otp(otp)
-                .expirationTime(new Date(System.currentTimeMillis() + 80 * 1000)) //80s thì otp hết hạn
+                .expirationTime(new Date(System.currentTimeMillis() + 10 * 60 * 1000)) //10p thì otp hết hạn
                 .user(user)
                 .build();
+        forgotPasswordRepo.save(forgotPassword);
         emailService.sendSimpleMessage(mailBody);
         return forgotPassword;
     }
@@ -47,13 +48,13 @@ public class ForgotPasswordImpl implements ForgotPasswordService{
     @Override
     public ForgotPassword verifyOtp(Integer otp, String email) {
         User user = userRepo.findByEmail(email).orElseThrow(() -> new GlobalExceptionHandler("email not found"));
-
         ForgotPassword fp = forgotPasswordRepo.findByOtpAndUser(otp, user)
                 .orElseThrow(() -> new GlobalExceptionHandler("Invalid Otp for email: " + email));
         if(fp.getExpirationTime().before(Date.from(Instant.now()))) {
             forgotPasswordRepo.deleteById(fp.getFpid());
             throw new GlobalExceptionHandler("OTP has expired");
         }
+        forgotPasswordRepo.deleteById(fp.getFpid());
         return fp;
     }
 
