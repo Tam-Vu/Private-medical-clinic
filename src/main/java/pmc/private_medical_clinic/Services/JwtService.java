@@ -1,5 +1,6 @@
 package pmc.private_medical_clinic.Services;
 
+import com.nimbusds.jwt.JWTClaimsSet;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -12,6 +13,7 @@ import java.security.Key;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 import java.util.function.Function;
 
 @Service
@@ -19,22 +21,22 @@ public class JwtService {
 
     private static final String SECRET_KEY = "BF7FD11ACE545745B7BA1AF98B6F156D127BC7BB544BAB6A4FD74E4FC7";
 
-    // extract username from JWT
-    public String extractUsername(String token) {
-        return extractClaim(token, Claims::getSubject);
-    }
+        // extract username from JWT
+        public String extractUsername(String token) {
+            return extractClaim(token, Claims::getSubject);
+        }
 
-    public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
-        final Claims claims = extractAllClaims(token);
-        return claimsResolver.apply(claims);
-    }
+        public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
+            final Claims claims = extractAllClaims(token);
+            return claimsResolver.apply(claims);
+        }
 
-    // extract information from JWT
-    private Claims extractAllClaims(String token) {
-        return Jwts
-                .parserBuilder()
-                .setSigningKey(getSignInKey())
-                .build()
+        // extract information from JWT
+        public Claims extractAllClaims(String token) {
+            return Jwts
+                    .parserBuilder()
+                    .setSigningKey(getSignInKey())
+                    .build()
                 .parseClaimsJws(token)
                 .getBody();
     }
@@ -55,9 +57,13 @@ public class JwtService {
             Map<String, Object> extraClaims,
             UserDetails userDetails
     ) {
+        JWTClaimsSet jwtClaimsSet = new JWTClaimsSet.Builder()
+                .subject(userDetails.getUsername())
+                .jwtID(UUID.randomUUID().toString())
+                .build();
         return Jwts
                 .builder()
-                .setClaims(extraClaims)
+                .setClaims(jwtClaimsSet.toJSONObject())
                 .setSubject(userDetails.getUsername())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + 20 * 60 * 1000))
