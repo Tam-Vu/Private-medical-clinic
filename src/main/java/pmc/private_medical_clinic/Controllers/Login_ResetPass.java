@@ -13,7 +13,7 @@ import pmc.private_medical_clinic.Services.*;
 
 @RequestMapping("/auth")
 @Controller
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class Login_ResetPass {
 
     @Autowired
@@ -29,6 +29,7 @@ public class Login_ResetPass {
 
     @PostMapping("/login")
     @ResponseBody
+
     public ResponeInfo<AuthResponse> login(@RequestBody LoginDto loginDto) {
         ResponeInfo<AuthResponse> responeInfo = new ResponeInfo<>();
         try {

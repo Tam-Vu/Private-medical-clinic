@@ -18,7 +18,7 @@ import pmc.private_medical_clinic.Entity.ForgotPassword;
 import pmc.private_medical_clinic.Entity.ResponeInfo;
 import pmc.private_medical_clinic.Entity.User;
 import pmc.private_medical_clinic.Services.ForgotPasswordService;
-import pmc.private_medical_clinic.Services.JwtService;
+//import pmc.private_medical_clinic.Services.JwtService;
 import pmc.private_medical_clinic.Services.UserService;
 
 

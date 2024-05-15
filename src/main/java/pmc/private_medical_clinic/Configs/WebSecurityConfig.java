@@ -29,6 +29,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.security.web.util.matcher.AndRequestMatcher;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 //import pmc.private_medical_clinic.Services.AuthFilterService;
+import pmc.private_medical_clinic.Services.AuthFilterService;
 import pmc.private_medical_clinic.Services.CustomUserDetailsService;
 import javax.sql.DataSource;
 
@@ -36,32 +37,34 @@ import javax.sql.DataSource;
 @Configuration
 @EnableMethodSecurity
 @Order(1)
+
 public class WebSecurityConfig {
 
-//    @Autowired
-//    private AuthFilterService authFilterService;
-    @Autowired
-    private AuthenticationProvider authenticationProvider;
-    @Autowired
-    private Oauth2Config oauth2Config;
+        @Autowired
+        private AuthFilterService authFilterService;
+        @Autowired
+        private AuthenticationProvider authenticationProvider;
+        @Autowired
+        private Oauth2Config oauth2Config;
 
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http
-                .csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/auth/**", "/register")
-                        .permitAll()
-                        .anyRequest()
-                        .authenticated())
-                .oauth2Login(oath2 -> {
-                    oath2.successHandler(oauth2Config);
-                    oath2.failureHandler(new SimpleUrlAuthenticationFailureHandler("/login"));
-                })
-                .sessionManagement(session -> session
-                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authenticationProvider(authenticationProvider)
-                .addFilterBefore(authFilterService, UsernamePasswordAuthenticationFilter.class);
-        return http.build();
-    }
+        @Bean
+        public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+                http
+                                .cors(Customizer.withDefaults())
+                                .csrf(AbstractHttpConfigurer::disable)
+                                .oauth2Login(oath2 -> {
+                                oath2.successHandler(oauth2Config);
+                                oath2.failureHandler(new SimpleUrlAuthenticationFailureHandler("/login"));
+                                })
+                                .authorizeHttpRequests(request -> request
+                                                .requestMatchers("/auth/**", "/register")
+                                                .permitAll()
+                                                .anyRequest()
+                                                .authenticated())
+                                .sessionManagement(session -> session
+                                                .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                                .authenticationProvider(authenticationProvider)
+                                .addFilterBefore(authFilterService, UsernamePasswordAuthenticationFilter.class);
+                return http.build();
+        }
 }
