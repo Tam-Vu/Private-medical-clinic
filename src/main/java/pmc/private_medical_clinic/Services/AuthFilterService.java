@@ -1,7 +1,10 @@
 package pmc.private_medical_clinic.Services;
 
+import io.jsonwebtoken.Claims;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.AutoConfigurationPackage;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -15,6 +18,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
+import pmc.private_medical_clinic.Repositories.InvalidatedTokenRepository;
 
 import java.io.IOException;
 
@@ -22,7 +26,8 @@ import java.io.IOException;
 public class AuthFilterService extends OncePerRequestFilter {
     @Autowired
     private JwtService jwtService;
-
+    @Autowired
+    private InvalidatedTokenRepository invalidatedTokenRepository;
     @Autowired
     private UserDetailsService userDetailsService;
     @Override
@@ -42,7 +47,13 @@ public class AuthFilterService extends OncePerRequestFilter {
         // extract JWT
 
             jwt = authHeader.substring(7);
-
+            Claims claims = jwtService.extractAllClaims(jwt);
+            if (invalidatedTokenRepository.existsById(claims.getId())) {
+                response.setStatus(HttpStatus.UNAUTHORIZED.value());
+                response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+                response.getWriter().write("{\"message\":\"Invalid token\"}");
+                return;
+            }
             // extract username from JWT
             username = jwtService.extractUsername(jwt);
 

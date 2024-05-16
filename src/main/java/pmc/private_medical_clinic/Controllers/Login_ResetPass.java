@@ -1,15 +1,17 @@
 package pmc.private_medical_clinic.Controllers;
 
-import jakarta.persistence.criteria.CriteriaBuilder;
+import org.apache.commons.logging.Log;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import pmc.private_medical_clinic.Dto.*;
 import pmc.private_medical_clinic.Entity.*;
-import pmc.private_medical_clinic.Repositories.UserRepo;
 import pmc.private_medical_clinic.Services.*;
+
+import static org.hibernate.internal.CoreLogging.logger;
+import static org.hibernate.internal.CoreLogging.messageLogger;
 
 @RequestMapping("/auth")
 @Controller
@@ -90,7 +92,20 @@ public class Login_ResetPass {
         }
         return responeInfo;
     }
-
+    @PostMapping("/logout")
+    @ResponseBody
+    public ResponeInfo<AuthResponse> logout(@RequestBody LogoutRequest request) {
+        ResponeInfo<AuthResponse> responeInfo = new ResponeInfo<>();
+        try{
+            authService.logout(request);
+            responeInfo.setStatusCode(200);
+            responeInfo.setMessage("logout successfully");
+        } catch (Exception e) {;
+            responeInfo.setStatusCode(500);
+            responeInfo.setMessage(e.getMessage());
+        }
+        return responeInfo;
+    }
     @PostMapping("/refresh")
     @ResponseBody
     public ResponeInfo<AuthResponse> refreshToken(@RequestBody RefreshTokenDto refreshTokenDto) {
