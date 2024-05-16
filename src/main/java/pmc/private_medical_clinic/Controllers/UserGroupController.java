@@ -13,12 +13,13 @@ import java.util.List;
 @RequestMapping("/api/v1/usergroups")
 @CrossOrigin(origins = "*")
 public class UserGroupController {
+
     @Autowired
     private UserGroupService userGroupService;
 
     @ResponseBody
     @GetMapping("/")
-    public List<UserGroup> getAllUserGroups(){
+    public List<UserGroup> getAllUserGroups() {
         return userGroupService.getAllUserGroups();
     }
 
@@ -33,6 +34,17 @@ public class UserGroupController {
     @PutMapping(value = "/{id}")
     public ResponseEntity<UserGroup> updateUserGroups(@PathVariable("id") Long id, @RequestBody UserGroupDto userGroupDto) {
         UserGroup usergroup = userGroupService.updateUserGroups(id, userGroupDto);
+        if (usergroup != null) {
+            return ResponseEntity.ok(usergroup);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @ResponseBody
+    @GetMapping(value = "/{id}")
+    public ResponseEntity<UserGroup> getUserGroup(@PathVariable("id") Long id) {
+        UserGroup usergroup = userGroupService.getUserGroupById(id);
         if (usergroup != null) {
             return ResponseEntity.ok(usergroup);
         } else {

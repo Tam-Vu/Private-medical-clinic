@@ -12,6 +12,7 @@ import java.util.List;
 @Service
 public interface UserGroupService{
     List<UserGroup> getAllUserGroups();
+    UserGroup getUserGroupById(Long id);
     UserGroup createUserGroups(UserGroupDto userGroupDto);
     UserGroup updateUserGroups(Long id, UserGroupDto userGroupDto);
 }

@@ -33,18 +33,6 @@ public class ArgumentController {
     }
 
     @ResponseBody
-    @PutMapping("update/maxNumOfPatients")
-    public Long updateMaxNumOfPatients(@RequestBody ArgumentDto argumentDto) {
-        return argumentService.updateMaxNumOfPatients(argumentDto.getMaxNumberOfPatients());
-    }
-
-    @ResponseBody
-    @PutMapping("update/feeConsult")
-    public Long updateFeeConsult(@RequestBody ArgumentDto argumentDto) {
-        return argumentService.updateFeeConsult(argumentDto.getFeeConsult());
-    }
-
-    @ResponseBody
     @PutMapping("update/argument")
     public Argument updateArgument(@RequestBody ArgumentDto argumentDto) {
         return argumentService.updateArgument(argumentDto);

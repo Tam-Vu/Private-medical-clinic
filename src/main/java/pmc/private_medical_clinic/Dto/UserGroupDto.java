@@ -8,6 +8,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserGroupDto {
+
     private String groupName;
     private String note;
+    private boolean isActive;
 }

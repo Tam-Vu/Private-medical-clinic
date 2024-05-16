@@ -7,8 +7,10 @@ import pmc.private_medical_clinic.Entity.UserGroup;
 import pmc.private_medical_clinic.Repositories.UserGroupRepo;
 
 import java.util.List;
+
 @Service
-public class UserGroupServiceIml implements UserGroupService{
+public class UserGroupServiceIml implements UserGroupService {
+
     @Autowired
     private UserGroupRepo userGroupRepo;
 
@@ -18,7 +20,7 @@ public class UserGroupServiceIml implements UserGroupService{
     }
 
     @Override
-    public UserGroup createUserGroups(UserGroupDto userGroupDto){
+    public UserGroup createUserGroups(UserGroupDto userGroupDto) {
         UserGroup userGroup = new UserGroup();
         userGroup.setGroupName(userGroupDto.getGroupName());
         userGroup.setNote(userGroupDto.getNote());
@@ -27,14 +29,18 @@ public class UserGroupServiceIml implements UserGroupService{
     }
 
     @Override
-    public UserGroup updateUserGroups(Long id, UserGroupDto userGroupDto){
+    public UserGroup updateUserGroups(Long id, UserGroupDto userGroupDto) {
         UserGroup userGroup = userGroupRepo.findById(id).get();
         userGroup.setGroupName(userGroupDto.getGroupName());
         userGroup.setNote(userGroupDto.getNote());
-        if(userGroup != null)
-        {
+        if (userGroup != null) {
             userGroupRepo.save(userGroup);
         }
         return userGroup;
+    }
+
+    @Override
+    public UserGroup getUserGroupById(Long id) {
+        return userGroupRepo.findById(id).get();
     }
 }

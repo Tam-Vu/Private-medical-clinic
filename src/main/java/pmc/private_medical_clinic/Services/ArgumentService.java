@@ -15,8 +15,6 @@ import pmc.private_medical_clinic.Entity.Argument;
 @Service
 public interface ArgumentService {
     Argument getArgument();
-    Long updateMaxNumOfPatients(Long maxNumOfPatients);
-    Long updateFeeConsult(Long feeConsult);
     Argument updateArgument(ArgumentDto argumentDto);
 }
 

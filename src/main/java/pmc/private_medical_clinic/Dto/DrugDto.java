@@ -8,10 +8,12 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 public class DrugDto {
+
     private Long id;
     private String drugName;
     private Long price;
     private Long count;
     private Long unitId;
     private String note;
+    private boolean isActive;
 }

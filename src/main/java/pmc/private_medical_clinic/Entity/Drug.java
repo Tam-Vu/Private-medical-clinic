@@ -15,9 +15,10 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Drug {
+
     @Id
     @Column(name = "id")
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(name = "drugName")
     private String drugName;
@@ -26,11 +27,13 @@ public class Drug {
     @Column(name = "count")
     private Long count;
     @ManyToOne
-    @JoinColumn (
+    @JoinColumn(
             name = "unitId",
             referencedColumnName = "id"
     )
     private Unit unit;
     @Column(name = "note")
     private String note;
+    @Column(name = "isActive")
+    private boolean isActive;
 }

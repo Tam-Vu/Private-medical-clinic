@@ -14,7 +14,7 @@ public class UserGroup {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String groupName;
     private String note;
+    private boolean isActive;
 }

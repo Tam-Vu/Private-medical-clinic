@@ -28,4 +28,5 @@ public class ArgumentServiceImpl implements ArgumentService {
         argument.setMaxNumberOfPatients(argumentDto.getMaxNumberOfPatients());
         return argumentRepo.save(argument);
     }
+
 }
