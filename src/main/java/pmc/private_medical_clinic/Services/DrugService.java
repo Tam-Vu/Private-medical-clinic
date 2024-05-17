@@ -14,5 +14,5 @@ public interface DrugService {
     Drug addDrug(DrugDto drugDto);
     Drug getDrugById(Long id);
     Drug updateDrug(Long id, DrugDto drugDto);
-    Drug deleteDrug(Long id);
+    Drug deactivateDrug(Long id);
 }

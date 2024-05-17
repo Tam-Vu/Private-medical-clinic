@@ -13,4 +13,5 @@ public class AppointmentListRecordDetailDto {
     private Long drugId;
     private Long count;
     private Long usageId;
+    private Long drugPrice;
 }

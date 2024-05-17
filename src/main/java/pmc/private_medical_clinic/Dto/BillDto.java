@@ -8,8 +8,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class BillDto {
+
     private Long id;
     private Long appointmentListId;
     private Long patientId;
-    private Long totalCost;
+    private Long drugExpense;
+    private Long feeConsult;
 }

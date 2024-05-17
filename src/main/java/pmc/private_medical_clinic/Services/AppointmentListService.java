@@ -17,4 +17,5 @@ import pmc.private_medical_clinic.Entity.AppointmentList;
 public interface AppointmentListService {
         List<AppointmentList> getAllAppointmentList();
         AppointmentList createAppointmentList(AppointmentListDto appointmentListDto);
+        AppointmentList getAppointmentListById(Long id);
 }

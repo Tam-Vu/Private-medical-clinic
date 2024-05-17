@@ -50,9 +50,9 @@ public class DrugController {
             return ResponseEntity.notFound().build();
     }
     @ResponseBody
-    @DeleteMapping("delete/{id}")
-    public ResponseEntity<Drug> deleteDrug(@PathVariable Long id) {
-        Drug drug = drugService.deleteDrug(id);
+    @PutMapping("deactivate/{id}")
+    public ResponseEntity<Drug> deactivateDrug(@PathVariable Long id) {
+        Drug drug = drugService.deactivateDrug(id);
         if (drug != null)
             return ResponseEntity.ok(drug);
         else

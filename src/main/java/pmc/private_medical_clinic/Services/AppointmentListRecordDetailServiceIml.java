@@ -10,15 +10,20 @@ import pmc.private_medical_clinic.Repositories.AppointmentListRecordDetailRepo;
 
 import java.util.List;
 import pmc.private_medical_clinic.Entity.Drug;
+import pmc.private_medical_clinic.Repositories.DrugRepo;
 
 @Service
-public class AppointmentListRecordDetailServiceIml implements AppointmentListRecordDetailService{
+public class AppointmentListRecordDetailServiceIml implements AppointmentListRecordDetailService {
+
     @Autowired
     private AppointmentListRecordDetailRepo appointmentListRecordDetailRepo;
 
+    @Autowired
+    private DrugRepo drugRepo;
+
     @Override
     public List<AppointmentListRecordDetail> getAllAppointmentListRecordDetail() {
-        return (List<AppointmentListRecordDetail> ) appointmentListRecordDetailRepo.getAllAppointmentListRecordDetail();
+        return (List<AppointmentListRecordDetail>) appointmentListRecordDetailRepo.getAllAppointmentListRecordDetail();
     }
 
     @Override
@@ -27,14 +32,16 @@ public class AppointmentListRecordDetailServiceIml implements AppointmentListRec
         AppointmentRecord appointmentListRecord = new AppointmentRecord();
         appointmentListRecord.setId(appointmentListRecordDetailDto.getAppointmentRecordId());
         appointmentListRecordDetail.setAppointmentListRecord(appointmentListRecord);
-        Drug drug = new Drug();
-        drug.setId(appointmentListRecordDetailDto.getDrugId());
+        Drug drug = drugRepo.findDrugdById(appointmentListRecordDetailDto.getDrugId());
         appointmentListRecordDetail.setDrug(drug);
         Usage usage = new Usage();
         usage.setId(appointmentListRecordDetailDto.getUsageId());
         appointmentListRecordDetail.setUsage(usage);
         appointmentListRecordDetail.setCount(appointmentListRecordDetailDto.getCount());
+        appointmentListRecordDetail.setDrugPrice(appointmentListRecordDetailDto.getDrugPrice());
         appointmentListRecordDetailRepo.save(appointmentListRecordDetail);
+        drug.setCount(drug.getCount() - appointmentListRecordDetailDto.getCount());
+        drugRepo.save(drug);
         return appointmentListRecordDetail;
     }
 
@@ -47,14 +54,14 @@ public class AppointmentListRecordDetailServiceIml implements AppointmentListRec
     @Override
     public AppointmentListRecordDetail updateAppointmentListRecordDetail(Long id, AppointmentListRecordDetailDto updateAppointmentListRecordDetailDto) {
         AppointmentListRecordDetail appointmentListRecordDetail = appointmentListRecordDetailRepo.findById(id).get();
-        if(appointmentListRecordDetail == null){
+        if (appointmentListRecordDetail == null) {
             return null;
         }
         AppointmentRecord appointmentListRecord = new AppointmentRecord();
         appointmentListRecord.setId(updateAppointmentListRecordDetailDto.getAppointmentRecordId());
         appointmentListRecordDetail.setAppointmentListRecord(appointmentListRecord);
 
-      Drug drug = new Drug();
+        Drug drug = new Drug();
         drug.setId(updateAppointmentListRecordDetailDto.getDrugId());
         appointmentListRecordDetail.setDrug(drug);
 

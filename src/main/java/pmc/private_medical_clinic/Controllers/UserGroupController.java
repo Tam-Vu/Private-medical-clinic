@@ -51,4 +51,14 @@ public class UserGroupController {
             return ResponseEntity.notFound().build();
         }
     }
+    
+     @ResponseBody
+    @PutMapping("deactivate/{id}")
+    public ResponseEntity<UserGroup> deactivateUserGroupById(@PathVariable Long id) {
+        UserGroup usergroup = userGroupService.deactivateUserGroupById(id);
+        if (usergroup != null)
+            return ResponseEntity.ok(usergroup);
+        else
+            return ResponseEntity.notFound().build();
+    }
 }

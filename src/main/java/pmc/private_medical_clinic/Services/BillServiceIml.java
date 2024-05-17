@@ -35,7 +35,8 @@ public class BillServiceIml implements BillService {
         appointmentList.setId(billDto.getAppointmentListId());
         bill.setPatient(patient);
         bill.setAppointmentList(appointmentList);
-        bill.setTotalCost(billDto.getTotalCost());
+        bill.setDrugExpense(billDto.getDrugExpense());
+        bill.setFeeConsult(billDto.getFeeConsult());
         billRepo.save(bill);
         return bill;
     }
@@ -57,7 +58,8 @@ public class BillServiceIml implements BillService {
             appointmentList.setId(billDto.getAppointmentListId());
             bill.setPatient(patient);
             bill.setAppointmentList(appointmentList);
-            bill.setTotalCost(billDto.getTotalCost());
+            bill.setDrugExpense(billDto.getDrugExpense());
+            bill.setFeeConsult(billDto.getFeeConsult());
             billRepo.save(bill);
             return bill;
         }

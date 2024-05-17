@@ -1,14 +1,11 @@
 package pmc.private_medical_clinic.Services;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pmc.private_medical_clinic.Dto.UserDto;
-import pmc.private_medical_clinic.Entity.ResponeInfo;
 import pmc.private_medical_clinic.Entity.User;
-import pmc.private_medical_clinic.Repositories.UserRepo;
 
 import java.security.Principal;
-import java.util.Optional;
+import java.util.List;
 
 @Service
 public interface UserService {
@@ -24,4 +21,13 @@ public interface UserService {
     User findByUsername(String tenDangNhap);
 
     User changePassword(UserDto userDto, Principal principal);
+
+    List<User> getAllUsers();
+
+    User updateUserById(Long id, UserDto userDto);
+
+    User getUserById(Long id);
+    
+    User deactivateUserById(Long id);
+
 }

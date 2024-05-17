@@ -43,4 +43,9 @@ public class AppointmentListServiceIml implements AppointmentListService {
         return appointmentList;
     }
 
+    @Override
+    public AppointmentList getAppointmentListById(Long id) {
+        return appointmentListRepo.findScheduleById(id);
+    }
+
 }

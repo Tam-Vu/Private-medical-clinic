@@ -20,5 +20,6 @@ public class Bill {
     @ManyToOne
     @JoinColumn(name = "patient_id")
     private Patient patient;
-    private Long totalCost;
+    private Long drugExpense;
+    private Long feeConsult;
 }

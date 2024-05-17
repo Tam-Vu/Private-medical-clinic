@@ -63,11 +63,12 @@ public class DrugServiceImpl implements DrugService {
     }
 
     @Override
-    public Drug deleteDrug(Long id) {
+    public Drug deactivateDrug(Long id) {
         Drug drug = drugRepo.findById(id).get();
         if (drug != null) {
-            drugRepo.deleteById(id);
+            drug.setActive(!drug.isActive());
+            return drugRepo.save(drug);
         }
-        return drug;
+        return null;
     }
 }

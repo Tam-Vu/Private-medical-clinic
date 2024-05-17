@@ -15,4 +15,5 @@ public interface UserGroupService{
     UserGroup getUserGroupById(Long id);
     UserGroup createUserGroups(UserGroupDto userGroupDto);
     UserGroup updateUserGroups(Long id, UserGroupDto userGroupDto);
+    UserGroup deactivateUserGroupById(Long id);
 }

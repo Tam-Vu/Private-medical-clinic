@@ -20,9 +20,10 @@ import java.util.Collection;
 @NoArgsConstructor
 @Table(name = "nguoidung")
 public class User implements UserDetails {
+
     @Id
-    @Column(name="U_id")
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @Column(name = "U_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long uId;
 
     @Column(length = 60, name = "username", unique = true)
@@ -45,6 +46,8 @@ public class User implements UserDetails {
     @JsonIgnore
     @OneToOne(mappedBy = "user")
     private RefreshToken refreshToken;
+
+    private boolean isActive;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

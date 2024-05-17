@@ -17,4 +17,5 @@ public class UserDto {
     private String email;
     private long maNhom;
     private String gioiTinh;
+    private boolean isActive;
 }

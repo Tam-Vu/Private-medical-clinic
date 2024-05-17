@@ -24,6 +24,7 @@ public class UserGroupServiceIml implements UserGroupService {
         UserGroup userGroup = new UserGroup();
         userGroup.setGroupName(userGroupDto.getGroupName());
         userGroup.setNote(userGroupDto.getNote());
+        userGroup.setActive(true);
         userGroupRepo.save(userGroup);
         return userGroup;
     }
@@ -42,5 +43,15 @@ public class UserGroupServiceIml implements UserGroupService {
     @Override
     public UserGroup getUserGroupById(Long id) {
         return userGroupRepo.findById(id).get();
+    }
+
+    @Override
+    public UserGroup deactivateUserGroupById(Long id) {
+        UserGroup userGroup = userGroupRepo.findById(id).get();
+        if (userGroup != null) {
+            userGroup.setActive(!userGroup.isActive());
+            return userGroupRepo.save(userGroup);
+        }
+        return null;
     }
 }
