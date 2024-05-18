@@ -7,17 +7,19 @@ import pmc.private_medical_clinic.Entity.Authorization;
 import pmc.private_medical_clinic.Services.AuthorizationService;
 
 import java.util.List;
+import pmc.private_medical_clinic.Dto.AuthorizationDto;
 
 @RestController
 @RequestMapping("/api/v1/authorizations")
 @CrossOrigin(origins = "*")
 public class AuthorizationController {
+
     @Autowired
     private AuthorizationService authorizationService;
 
     @ResponseBody
     @GetMapping("/")
-    public List<Authorization> getAllAuthorizations(){
+    public List<Authorization> getAllAuthorizations() {
         return authorizationService.getAllAuthorizations();
     }
 
@@ -37,4 +39,27 @@ public class AuthorizationController {
     public List<Authorization> findAllAuthorizationsByUserGroup(@PathVariable("userGroupId") Long userGroupId) {
         return authorizationService.findAllAuthorizationsByUserGroup(userGroupId);
     }
+
+    @ResponseBody
+    @PostMapping("/")
+    public ResponseEntity<Authorization> createAuthorization(@RequestBody AuthorizationDto authorizationDto) {
+        Authorization authorization = authorizationService.createAuthorization(authorizationDto);
+        if (authorization != null) {
+            return ResponseEntity.ok(authorization);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @ResponseBody
+    @PutMapping(value = "/")
+    public ResponseEntity<Authorization> updateAuthorization(@RequestBody AuthorizationDto authorizationDto) {
+        Authorization authorization = authorizationService.updateAuthorization(authorizationDto);
+        if (authorization != null) {
+            return ResponseEntity.ok(authorization);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
 }
