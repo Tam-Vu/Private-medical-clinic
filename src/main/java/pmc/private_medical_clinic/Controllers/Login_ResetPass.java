@@ -12,6 +12,7 @@ import pmc.private_medical_clinic.Services.*;
 
 import static org.hibernate.internal.CoreLogging.logger;
 import static org.hibernate.internal.CoreLogging.messageLogger;
+import static pmc.private_medical_clinic.Configs.Oauth2Config.authResponse;
 
 @RequestMapping("/auth")
 @Controller
@@ -31,7 +32,6 @@ public class Login_ResetPass {
 
     @PostMapping("/login")
     @ResponseBody
-
     public ResponeInfo<AuthResponse> login(@RequestBody LoginDto loginDto) {
         ResponeInfo<AuthResponse> responeInfo = new ResponeInfo<>();
         try {
@@ -48,14 +48,14 @@ public class Login_ResetPass {
 
     @PostMapping("/forgot-password/verify-mail/{email}")
     @ResponseBody
-    public ResponeInfo<ForgotPassword> verifyEmail(@PathVariable("email") String email){
+    public ResponeInfo<ForgotPassword> verifyEmail(@PathVariable("email") String email) {
         ResponeInfo<ForgotPassword> responeInfo = new ResponeInfo<>();
         try {
             ForgotPassword fp = forgotPasswordService.sendEmail(email);
             responeInfo.setData(fp);
             responeInfo.setStatusCode(200);
             responeInfo.setMessage("sent the email");
-        } catch(Exception e) {
+        } catch (Exception e) {
             responeInfo.setStatusCode(500);
             responeInfo.setMessage(e.getMessage());
         }
@@ -82,30 +82,35 @@ public class Login_ResetPass {
     @ResponseBody
     public ResponeInfo<String> changePass(@RequestBody ResetPassword resetPassword, @PathVariable("email") String email) {
         ResponeInfo<String> responeInfo = new ResponeInfo<>();
-        try{
+        try {
             forgotPasswordService.changPassword(resetPassword, email);
             responeInfo.setStatusCode(200);
             responeInfo.setMessage("Password has been change");
-        }catch (Exception e) {
+        } catch (Exception e) {
             responeInfo.setStatusCode(500);
             responeInfo.setMessage(e.getMessage());
         }
         return responeInfo;
     }
+
     @PostMapping("/logout")
     @ResponseBody
     public ResponeInfo<AuthResponse> logout(@RequestBody LogoutRequest request) {
         ResponeInfo<AuthResponse> responeInfo = new ResponeInfo<>();
-        try{
+        try {
             authService.logout(request);
             responeInfo.setStatusCode(200);
             responeInfo.setMessage("logout successfully");
-        } catch (Exception e) {;
+        } catch (Exception e) {
             responeInfo.setStatusCode(500);
             responeInfo.setMessage(e.getMessage());
         }
+        if (authResponse != null) {
+            authResponse = null;
+        }
         return responeInfo;
     }
+
     @PostMapping("/refresh")
     @ResponseBody
     public ResponeInfo<AuthResponse> refreshToken(@RequestBody RefreshTokenDto refreshTokenDto) {
@@ -126,6 +131,25 @@ public class Login_ResetPass {
             responeInfo.setStatusCode(500);
             responeInfo.setMessage(e.getMessage());
         }
+        return responeInfo;
+    }
+
+    @PostMapping("/success")
+    @ResponseBody
+    public ResponeInfo<AuthResponse> loginSuccessWithGoogle() {
+        ResponeInfo<AuthResponse> responeInfo = new ResponeInfo<>();
+        if (authResponse != null) {
+            try {
+
+                responeInfo.setData(authResponse);
+                responeInfo.setStatusCode(200);
+                responeInfo.setMessage("passed login page");
+            } catch (Exception e) {
+                responeInfo.setStatusCode(500);
+                responeInfo.setMessage(e.getMessage());
+            }
+        }
+
         return responeInfo;
     }
 }

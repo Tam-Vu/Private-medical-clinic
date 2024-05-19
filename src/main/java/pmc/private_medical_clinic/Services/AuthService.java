@@ -22,6 +22,7 @@ import java.util.Date;
 
 @Service
 public class AuthService {
+
     @Autowired
     private AuthenticationManager authenticationManager;
     @Autowired
@@ -43,23 +44,26 @@ public class AuthService {
         );
         AuthResponse authResponse = new AuthResponse();
         var user = userRepo.findByUsername(loginDto.getUsername()).orElseThrow(() -> new GlobalExceptionHandler("Username not found"));
+        if (user.isActive() == false) {
+            throw new GlobalExceptionHandler("Username not active");
+        }
         var accessToken = jwtService.generateToken(user);
         var refreshToken = refreshTokenService.createRefreshToken(loginDto.getUsername());
         authResponse.setAccessToken(accessToken);
         authResponse.setRefreshToken(refreshToken.getRefreshToken());
-        return  authResponse;
+        return authResponse;
     }
-    public void logout(LogoutRequest request)  throws ParseException, JOSEException {
-        try{
+
+    public void logout(LogoutRequest request) throws ParseException, JOSEException {
+        try {
             Claims claims = jwtService.extractAllClaims(request.getToken());
             String jit = (String) claims.getId();
             Date expiryTime = claims.getExpiration();
 
-            InvalidatedToken invalidatedToken =
-                    InvalidatedToken.builder().id(jit).expirationTime(expiryTime).build();
+            InvalidatedToken invalidatedToken
+                    = InvalidatedToken.builder().id(jit).expirationTime(expiryTime).build();
             invalidatedTokenRepository.save(invalidatedToken);
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             throw new GlobalExceptionHandler("Error logging out");
         }
 

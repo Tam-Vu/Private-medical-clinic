@@ -15,9 +15,11 @@ import java.time.Instant;
 import java.util.Date;
 import java.util.Objects;
 import java.util.Random;
+
 @Service
 
-public class ForgotPasswordImpl implements ForgotPasswordService{
+public class ForgotPasswordImpl implements ForgotPasswordService {
+
     @Autowired
     private UserRepo userRepo;
     @Autowired
@@ -26,9 +28,13 @@ public class ForgotPasswordImpl implements ForgotPasswordService{
     private ForgotPasswordRepo forgotPasswordRepo;
     @Autowired
     private PasswordEncoder passwordEncoder;
+
     @Override
     public ForgotPassword sendEmail(String email) {
         User user = userRepo.findByEmail(email).orElseThrow(() -> new GlobalExceptionHandler("email not found"));
+        if (user.isActive() == false) {
+            throw new GlobalExceptionHandler("Username not active");
+        }
         Integer otp = otpGenerator();
         MailBody mailBody = MailBody.builder()
                 .to(email)
@@ -50,7 +56,7 @@ public class ForgotPasswordImpl implements ForgotPasswordService{
         User user = userRepo.findByEmail(email).orElseThrow(() -> new GlobalExceptionHandler("email not found"));
         ForgotPassword fp = forgotPasswordRepo.findByOtpAndUser(otp, user)
                 .orElseThrow(() -> new GlobalExceptionHandler("Invalid Otp for email: " + email));
-        if(fp.getExpirationTime().before(Date.from(Instant.now()))) {
+        if (fp.getExpirationTime().before(Date.from(Instant.now()))) {
             forgotPasswordRepo.deleteById(fp.getFpid());
             throw new GlobalExceptionHandler("OTP has expired");
         }
@@ -60,13 +66,12 @@ public class ForgotPasswordImpl implements ForgotPasswordService{
 
     @Override
     public void changPassword(ResetPassword resetPassword, String email) {
-        if(!Objects.equals(resetPassword.getNewPassword(), resetPassword.getRepeatNewPassword())) {
+        if (!Objects.equals(resetPassword.getNewPassword(), resetPassword.getRepeatNewPassword())) {
             throw new GlobalExceptionHandler("Wrong repeat new password");
         }
         String encoderedPass = passwordEncoder.encode(resetPassword.getNewPassword());
         userRepo.updatePassword(email, encoderedPass);
     }
-
 
     private Integer otpGenerator() {
         Random random = new Random();

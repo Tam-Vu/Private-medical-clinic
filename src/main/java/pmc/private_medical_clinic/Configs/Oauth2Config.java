@@ -20,10 +20,12 @@ import pmc.private_medical_clinic.Services.JwtService;
 import pmc.private_medical_clinic.Services.RefreshTokenService;
 
 import java.io.IOException;
+import pmc.private_medical_clinic.failureHandler.GlobalExceptionHandler;
 
 @Configuration
 @CrossOrigin(origins = "*")
 public class Oauth2Config extends SimpleUrlAuthenticationSuccessHandler {
+
     @Autowired
     private UserRepo userRepo;
     @Autowired
@@ -31,24 +33,27 @@ public class Oauth2Config extends SimpleUrlAuthenticationSuccessHandler {
     @Autowired
     private RefreshTokenService refreshTokenService;
 
+    public static AuthResponse authResponse;
+
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         if (authentication instanceof OAuth2AuthenticationToken) {
             OAuth2User oAuth2User = ((OAuth2AuthenticationToken) authentication).getPrincipal();
             User user = userRepo.findByEmail(oAuth2User.getAttribute("email").toString()).orElse(null);
+            if (user.isActive() == false) {
+                response.sendRedirect("http://localhost:3000/");
+            }
             if (user != null) {
                 var token = jwtService.generateToken(user);
                 var refreshToken = refreshTokenService.createRefreshToken(user.getUsername());
-                AuthResponse authResponse = new AuthResponse();
+                authResponse = new AuthResponse();
                 authResponse.setAccessToken(token);
                 authResponse.setRefreshToken(refreshToken.getRefreshToken());
-                response.getWriter().write(authResponse.toString());
-                response.getWriter().flush();
-            }
-            else {
-                response.sendError(500, "user not found");
+                response.sendRedirect("http://localhost:3000/success");
+            } else {
+                response.sendRedirect("http://localhost:3000/");
             }
         } else {
-            response.sendError(500, "server error");
+            response.sendRedirect("http://localhost:3000/");
         }
     }
 }

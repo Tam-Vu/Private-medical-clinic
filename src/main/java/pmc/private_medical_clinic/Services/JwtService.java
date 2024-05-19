@@ -21,22 +21,22 @@ public class JwtService {
 
     private static final String SECRET_KEY = "BF7FD11ACE545745B7BA1AF98B6F156D127BC7BB544BAB6A4FD74E4FC7";
 
-        // extract username from JWT
-        public String extractUsername(String token) {
-            return extractClaim(token, Claims::getSubject);
-        }
+    // extract username from JWT
+    public String extractUsername(String token) {
+        return extractClaim(token, Claims::getSubject);
+    }
 
-        public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
-            final Claims claims = extractAllClaims(token);
-            return claimsResolver.apply(claims);
-        }
+    public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
+        final Claims claims = extractAllClaims(token);
+        return claimsResolver.apply(claims);
+    }
 
-        // extract information from JWT
-        public Claims extractAllClaims(String token) {
-            return Jwts
-                    .parserBuilder()
-                    .setSigningKey(getSignInKey())
-                    .build()
+    // extract information from JWT
+    public Claims extractAllClaims(String token) {
+        return Jwts
+                .parserBuilder()
+                .setSigningKey(getSignInKey())
+                .build()
                 .parseClaimsJws(token)
                 .getBody();
     }
@@ -66,9 +66,10 @@ public class JwtService {
                 .setClaims(jwtClaimsSet.toJSONObject())
                 .setSubject(userDetails.getUsername())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + 2* 24 * 60 * 60 * 1000))
+                .setExpiration(new Date(System.currentTimeMillis() + 2 * 24 * 60 * 60 * 1000))
                 .signWith(getSignInKey(), SignatureAlgorithm.HS256)
                 .compact();
+
     }
 
     // if token is valid by checking if token is expired for current user

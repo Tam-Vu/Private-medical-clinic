@@ -66,13 +66,25 @@ public class UserController {
     }
 
     @ResponseBody
+    @GetMapping(value = "/userName/{userName}")
+    public ResponseEntity<User> getUserByUserName(@PathVariable("userName") String userName) {
+        User user = userService.getUserByUsername(userName);
+        if (user != null) {
+            return ResponseEntity.ok(user);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @ResponseBody
     @PutMapping(value = "deactivate/{id}")
     public ResponseEntity<User> deactivateUserById(@PathVariable("id") Long id) {
-         User user = userService.deactivateUserById(id);
-        if (user != null)
+        User user = userService.deactivateUserById(id);
+        if (user != null) {
             return ResponseEntity.ok(user);
-        else
+        } else {
             return ResponseEntity.notFound().build();
+        }
     }
 //      @ResponseBody
 //    @GetMapping("/phoneNumber/{phoneNumber}")
