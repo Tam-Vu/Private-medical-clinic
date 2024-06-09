@@ -14,5 +14,4 @@ public class PrivateMedicalClinicApplication {
         drugUsageTriggerSerivce = new DrugUsageTriggerSerivce();
         drugUsageTriggerSerivce.startTrigger();
     }
-
 }

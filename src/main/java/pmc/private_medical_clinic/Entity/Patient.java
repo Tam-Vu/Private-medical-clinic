@@ -34,4 +34,5 @@ public class Patient {
     private String address;
     private String phoneNumber;
     private Date createdAt = new Date();
+    private Long code;
 }

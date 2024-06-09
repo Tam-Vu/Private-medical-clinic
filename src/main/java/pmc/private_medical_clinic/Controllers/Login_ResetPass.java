@@ -1,8 +1,5 @@
 package pmc.private_medical_clinic.Controllers;
 
-import org.apache.commons.logging.Log;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -20,7 +17,7 @@ import static pmc.private_medical_clinic.Configs.Oauth2Config.authResponse;
 public class Login_ResetPass {
 
     @Autowired
-    private UserService userService;
+    private PatientService patientService;
     @Autowired
     private AuthService authService;
     @Autowired
@@ -150,6 +147,63 @@ public class Login_ResetPass {
             }
         }
 
+        return responeInfo;
+    }
+    @PostMapping("/patients/validPhoneNumber")
+    @ResponseBody
+    public ResponeInfo<String> validPhoneNumber(@RequestBody PhoneNumberDto phoneNumberDto) {
+        ResponeInfo<String> responeInfo = new ResponeInfo<>();
+        try {
+            if(patientService.validPhoneNumber(phoneNumberDto.getPhoneNumber())) {
+                responeInfo.setStatusCode(200);
+                responeInfo.setMessage("Valid phone number");
+            }
+            else{
+                responeInfo.setStatusCode(400);
+                responeInfo.setMessage("Invalid phone number");
+            }
+        } catch (Exception e) {
+            responeInfo.setStatusCode(500);
+            responeInfo.setMessage("Server error");
+        }
+        return responeInfo;
+    }
+    @PostMapping("/patients/sendOTP")
+    @ResponseBody
+    public ResponeInfo<String> sendOTP(@RequestBody PhoneNumberDto phoneNumberDto) {
+        ResponeInfo<String> responeInfo = new ResponeInfo<>();
+        try {
+            if(patientService.sendOTP(phoneNumberDto.getPhoneNumber())) {
+                responeInfo.setStatusCode(200);
+                responeInfo.setMessage("OTP sent");
+            }
+            else{
+                responeInfo.setStatusCode(400);
+                responeInfo.setMessage("OTP not sent");
+            }
+        } catch (Exception e) {
+            responeInfo.setStatusCode(500);
+            responeInfo.setMessage("Server error");
+        }
+        return responeInfo;
+    }
+    @PostMapping("/patients/verifyOTP")
+    @ResponseBody
+    public ResponeInfo<String> verifyOTP(@RequestBody CheckOTPDto checkOTPDto) {
+        ResponeInfo<String> responeInfo = new ResponeInfo<>();
+        try {
+            if(patientService.verifyOTP(checkOTPDto.getPhoneNumber(), checkOTPDto.getOtp())) {
+                responeInfo.setStatusCode(200);
+                responeInfo.setMessage("OTP verified");
+            }
+            else{
+                responeInfo.setStatusCode(400);
+                responeInfo.setMessage("OTP not verified");
+            }
+        } catch (Exception e) {
+            responeInfo.setStatusCode(500);
+            responeInfo.setMessage("Server error");
+        }
         return responeInfo;
     }
 }

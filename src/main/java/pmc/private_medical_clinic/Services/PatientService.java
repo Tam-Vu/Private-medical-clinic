@@ -21,4 +21,8 @@ public interface PatientService {
     Patient updatePatientById(Long id, PatientDto patientDto);
     boolean deletePatientById(Long id);
     Patient getPatientByPhoneNumber(String phoneNumber);
+    boolean validPhoneNumber(String phoneNumber);
+    boolean sendOTP(String phoneNumber);
+    boolean verifyOTP(String phoneNumber, Long OTP);
+
 }
