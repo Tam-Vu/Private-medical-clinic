@@ -4,6 +4,7 @@
  */
 package pmc.private_medical_clinic.Services;
 
+import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,12 +32,19 @@ public class AppointmentListPatientServiceIml implements AppointmentListPatientS
     @Override
     public AppointmentListPatient createAppointmentListPatient(AppointmentListPatientDto appointmentListPatientDto) {
         AppointmentListPatient appointmentListPatient = new AppointmentListPatient();
+        Integer maxOrderNumber = appointmentListPatientRepo.findMaxOrderNumberByDateId(appointmentListPatientDto.getAppointmentListId());
+        if (maxOrderNumber == null) {
+            appointmentListPatient.setOrderNumber(1);
+        } else {
+            appointmentListPatient.setOrderNumber(maxOrderNumber + 1);
+        }
         Patient patient = new Patient();
         patient.setId(appointmentListPatientDto.getPatientId());
         AppointmentList appointmentList = new AppointmentList();
         appointmentList.setId(appointmentListPatientDto.getAppointmentListId());
         appointmentListPatient.setAppointmentList(appointmentList);
         appointmentListPatient.setPatient(patient);
+        appointmentListPatient.setTimeUpdate(new Date());
         appointmentListPatientRepo.save(appointmentListPatient);
         return appointmentListPatient;
     }
@@ -58,7 +66,12 @@ public class AppointmentListPatientServiceIml implements AppointmentListPatientS
     @Override
     public AppointmentListPatient updateAppointmentListPatient(Long id, AppointmentListPatientDto appointmentListPatientDto) {
         AppointmentListPatient appointmentListPatient = appointmentListPatientRepo.findById(id).get();
-
+        Integer maxOrderNumber = appointmentListPatientRepo.findMaxOrderNumberByDateId(appointmentListPatientDto.getAppointmentListId());
+        if (maxOrderNumber == null) {
+            appointmentListPatient.setOrderNumber(1);
+        } else {
+            appointmentListPatient.setOrderNumber(maxOrderNumber + 1);
+        }
         Patient patient = new Patient();
         patient.setId(appointmentListPatientDto.getPatientId());
 
@@ -67,6 +80,7 @@ public class AppointmentListPatientServiceIml implements AppointmentListPatientS
 
         if (appointmentListPatient != null) {
             appointmentListPatient.setAppointmentList(appointmentList);
+            appointmentListPatient.setTimeUpdate(new Date());
             return appointmentListPatientRepo.save(appointmentListPatient);
         }
         return null;
@@ -80,6 +94,16 @@ public class AppointmentListPatientServiceIml implements AppointmentListPatientS
     @Override
     public List<AppointmentListPatient> getByPatientId(Long patientId) {
         return (List<AppointmentListPatient>) appointmentListPatientRepo.findByPatientId(patientId);
+    }
+
+    @Override
+    public AppointmentListPatient moveAppointmentListPatientToTheEnd(Long id) {
+        AppointmentListPatient appointmentListPatient = appointmentListPatientRepo.findById(id).get();
+        if (appointmentListPatient != null) {
+            appointmentListPatient.setTimeUpdate(new Date());
+            return appointmentListPatientRepo.save(appointmentListPatient);
+        }
+        return null;
     }
 
 }

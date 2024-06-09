@@ -15,6 +15,7 @@ import java.util.Date;
 @NoArgsConstructor
 
 public class BookingDto {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -22,6 +23,7 @@ public class BookingDto {
     private String fullName;
     private String phoneNumber;
     private String gender;
+    private Long birthYear;
     private String address;
     private Date bookingAppointment;
     private String status;

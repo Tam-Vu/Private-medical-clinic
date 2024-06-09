@@ -83,4 +83,15 @@ public class AppointmentListPatientController {
     public ResponseEntity<AppointmentListPatient> getAppointmentListPatientById(@PathVariable("appointmentListPatientId") Long id) {
         return ResponseEntity.ok(appointmentListPatientService.getAppointmentListPatientById(id));
     }
+    
+        @ResponseBody
+    @PutMapping(value = "/{id}/update")
+    public ResponseEntity<AppointmentListPatient> moveAppointmentListPatientToTheEnd(@PathVariable("id") Long id) {
+        AppointmentListPatient appointmentListPatient = appointmentListPatientService.moveAppointmentListPatientToTheEnd(id);
+        if (appointmentListPatient != null) {
+            return ResponseEntity.ok(appointmentListPatient);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
 }

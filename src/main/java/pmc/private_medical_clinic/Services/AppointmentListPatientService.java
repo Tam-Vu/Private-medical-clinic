@@ -31,4 +31,5 @@ public interface AppointmentListPatientService {
     boolean deleteAppointmentListPatient(Long id);
 
     AppointmentListPatient updateAppointmentListPatient(Long id, AppointmentListPatientDto appointmentListPatientDto);
+    AppointmentListPatient moveAppointmentListPatientToTheEnd(Long id);
 }

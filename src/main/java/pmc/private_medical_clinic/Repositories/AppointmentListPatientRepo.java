@@ -4,6 +4,7 @@
  */
 package pmc.private_medical_clinic.Repositories;
 
+import java.util.Date;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -13,7 +14,7 @@ import pmc.private_medical_clinic.Entity.AppointmentListPatient;
 @Repository
 public interface AppointmentListPatientRepo extends JpaRepository<AppointmentListPatient, Long> {
 
-    @Query("SELECT al FROM AppointmentListPatient al JOIN al.patient p JOIN al.appointmentList l")
+    @Query("SELECT al FROM AppointmentListPatient al JOIN al.patient p JOIN al.appointmentList l ORDER by al.timeUpdate ASC")
     List<AppointmentListPatient> findAllAppointmentList();
 
     @Query("SELECT al FROM AppointmentListPatient al JOIN al.patient p JOIN al.appointmentList l WHERE l.id = :appointmentListId")
@@ -21,4 +22,7 @@ public interface AppointmentListPatientRepo extends JpaRepository<AppointmentLis
 
     @Query("SELECT al FROM AppointmentListPatient al JOIN al.patient p JOIN al.appointmentList l WHERE p.id = :patientId")
     List<AppointmentListPatient> findByPatientId(Long patientId);
+
+    @Query("select Max(al.orderNumber) from AppointmentListPatient al JOIN al.patient p JOIN al.appointmentList l WHERE l.id = :appointmentListId")
+    Integer findMaxOrderNumberByDateId(Long appointmentListId);
 }

@@ -17,16 +17,19 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class BookingServiceImpl implements BookingService{
+public class BookingServiceImpl implements BookingService {
+
     @Autowired
     private final BookingRepo bookingRepo;
-    private static final Logger logger = (Logger)LoggerFactory.getLogger(BookingServiceImpl.class);
+    private static final Logger logger = (Logger) LoggerFactory.getLogger(BookingServiceImpl.class);
     private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
 
     private final String spreadsheetId = "1fqCqK5lKWEE9Szga5stHt8D8cqecAarIC4Y_f_FUwjI";
-    BookingServiceImpl(BookingRepo bookingRepo){
+
+    BookingServiceImpl(BookingRepo bookingRepo) {
         this.bookingRepo = bookingRepo;
     }
+
     @Override
     public boolean fetchDataFromGoogleSheet() {
         DATE_FORMAT.setLenient(false);
@@ -44,7 +47,8 @@ public class BookingServiceImpl implements BookingService{
                     }
                     Date bookingAppointment = DATE_FORMAT.parse((String) row.get(6));
                     Date bookingDate = DATE_FORMAT.parse((String) row.get(0));
-                    if(bookingRepo.findValidData(bookingAppointment,(String) row.get(2),(String) row.get(3)) == null ){
+                    Long birthYear = Long.parseLong((String) row.get(7));
+                    if (bookingRepo.findValidData(bookingDate, (String) row.get(3)) == null) {
                         BookingDto bookingDto = new BookingDto();
                         bookingDto.setBookingDate(bookingDate);
                         bookingDto.setFullName((String) row.get(2));
@@ -52,6 +56,7 @@ public class BookingServiceImpl implements BookingService{
                         bookingDto.setGender((String) row.get(4));
                         bookingDto.setAddress((String) row.get(5));
                         bookingDto.setBookingAppointment(bookingAppointment);
+                        bookingDto.setBirthYear(birthYear);
                         Booking booking = new Booking();
                         booking.setBookingDate(bookingDto.getBookingDate());
                         booking.setFullName(bookingDto.getFullName());
@@ -59,9 +64,9 @@ public class BookingServiceImpl implements BookingService{
                         booking.setGender(bookingDto.getGender());
                         booking.setAddress(bookingDto.getAddress());
                         booking.setBookingAppointment(bookingDto.getBookingAppointment());
+                        booking.setBirthYear(bookingDto.getBirthYear());
                         bookingRepo.save(booking);
-                    }
-                    else{
+                    } else {
                         continue;
                     }
                 }
@@ -76,7 +81,7 @@ public class BookingServiceImpl implements BookingService{
 
     @Override
     public Booking createBooking(BookingDto bookingDto) {
-        if(bookingRepo.findValidData(bookingDto.getBookingAppointment(),bookingDto.getFullName(),bookingDto.getPhoneNumber()) == null ){
+        if (bookingRepo.findValidData(bookingDto.getBookingDate(), bookingDto.getPhoneNumber()) == null) {
             Booking booking = new Booking();
             booking.setBookingDate(bookingDto.getBookingDate());
             booking.setFullName(bookingDto.getFullName());
@@ -84,20 +89,17 @@ public class BookingServiceImpl implements BookingService{
             booking.setGender(bookingDto.getGender());
             booking.setAddress(bookingDto.getAddress());
             booking.setBookingAppointment(bookingDto.getBookingAppointment());
+            booking.setBirthYear(bookingDto.getBirthYear());
             bookingRepo.save(booking);
         }
         return null;
     }
 
     @Override
-    public Booking updateBooking(Long Id,BookingDto bookingDto) {
+    public Booking updateBooking(Long Id, BookingDto bookingDto) {
         Booking booking = bookingRepo.findById(Id).get();
-        booking.setBookingDate(bookingDto.getBookingDate());
-        booking.setFullName(bookingDto.getFullName());
-        booking.setPhoneNumber(bookingDto.getPhoneNumber());
-        booking.setGender(bookingDto.getGender());
-        booking.setAddress(bookingDto.getAddress());
         booking.setBookingAppointment(bookingDto.getBookingAppointment());
+        booking.setStatus("Accepted");
         bookingRepo.save(booking);
         return booking;
     }
@@ -105,7 +107,7 @@ public class BookingServiceImpl implements BookingService{
     @Override
     public Boolean deleteBooking(Long Id) {
         Booking booking = bookingRepo.findById(Id).orElse(null);
-        if(booking != null){
+        if (booking != null) {
             booking.setStatus("Cancelled");
             bookingRepo.save(booking);
             return true;
@@ -119,7 +121,7 @@ public class BookingServiceImpl implements BookingService{
     }
 
     @Override
-    public Booking getBookingById(Long Id) {
-        return bookingRepo.findById(Id).orElse(null);
+    public List<Booking> getBookingByBookingDate(Date bookingDate) {
+        return bookingRepo.findAllBookingsByBookingDate(bookingDate);
     }
 }

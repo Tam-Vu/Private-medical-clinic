@@ -8,6 +8,7 @@ import jakarta.persistence.CascadeType;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import java.util.Date;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
@@ -28,5 +29,7 @@ public class AppointmentListPatientDto {
 
     private Long patientId;
     private Long appointmentListId;
+    private Integer orderNumber;
+    private Date timeUpdate;
 
 }

@@ -9,9 +9,14 @@ import java.util.Date;
 import java.util.List;
 
 @Repository
-public interface BookingRepo extends JpaRepository<Booking, Long>{
-    @Query("SELECT b FROM Booking b WHERE b.bookingAppointment = :bookingAppointment AND b.fullName = :fullName AND b.phoneNumber = :phoneNumber")
-    Booking findValidData(Date bookingAppointment, String fullName, String phoneNumber);
+public interface BookingRepo extends JpaRepository<Booking, Long> {
+
+    @Query("SELECT b FROM Booking b WHERE  b.bookingDate = :bookingDate AND b.phoneNumber = :phoneNumber")
+    Booking findValidData(Date bookingDate, String phoneNumber);
+
     @Query("SELECT b FROM Booking b")
     List<Booking> findAllBookings();
+
+    @Query("SELECT b FROM Booking b WHERE  b.bookingDate = :bookingDate")
+    List<Booking> findAllBookingsByBookingDate(Date bookingDate);
 }

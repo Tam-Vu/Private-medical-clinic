@@ -13,6 +13,7 @@ import java.util.Date;
 @NoArgsConstructor
 @Table(name = "bookings")
 public class Booking {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -26,6 +27,8 @@ public class Booking {
     private String gender;
     @Column(name = "address")
     private String address;
+    @Column(name = "birthYear")
+    private Long birthYear;
     @Column(name = "bookingAppointment")
     private Date bookingAppointment;
     @Column(name = "status")
