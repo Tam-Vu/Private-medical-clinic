@@ -17,6 +17,7 @@ public interface BookingRepo extends JpaRepository<Booking, Long> {
     @Query("SELECT b FROM Booking b")
     List<Booking> findAllBookings();
 
-    @Query("SELECT b FROM Booking b WHERE  b.bookingDate = :bookingDate")
+    @Query("SELECT b FROM Booking b WHERE  Year(b.bookingDate) = Year(:bookingDate) AND Month(b.bookingDate) = Month(:bookingDate) and Day(b.bookingDate) = Day(:bookingDate)")
+
     List<Booking> findAllBookingsByBookingDate(Date bookingDate);
 }
