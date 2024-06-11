@@ -23,7 +23,7 @@ public class BookingServiceImpl implements BookingService {
     private final BookingRepo bookingRepo;
     private static final Logger logger = (Logger) LoggerFactory.getLogger(BookingServiceImpl.class);
     private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
-
+    private static final SimpleDateFormat DATE_FORMAT_DETAIL = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     private final String spreadsheetId = "1fqCqK5lKWEE9Szga5stHt8D8cqecAarIC4Y_f_FUwjI";
 
     BookingServiceImpl(BookingRepo bookingRepo) {
@@ -46,7 +46,7 @@ public class BookingServiceImpl implements BookingService {
                         continue;
                     }
                     Date bookingAppointment = DATE_FORMAT.parse((String) row.get(6));
-                    Date bookingDate = DATE_FORMAT.parse((String) row.get(0));
+                    Date bookingDate = DATE_FORMAT_DETAIL.parse((String) row.get(0));
                     Long birthYear = Long.parseLong((String) row.get(7));
                     if (bookingRepo.findValidData(bookingDate, (String) row.get(3)) == null) {
                         BookingDto bookingDto = new BookingDto();
