@@ -2,12 +2,17 @@ package pmc.private_medical_clinic.Services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import pmc.private_medical_clinic.Dto.MedicineDto;
 import pmc.private_medical_clinic.Dto.UnitDto;
 import pmc.private_medical_clinic.Entity.Medicine;
 import pmc.private_medical_clinic.Entity.Unit;
 import pmc.private_medical_clinic.Repositories.MedicineRepo;
+import pmc.private_medical_clinic.failureHandler.GlobalExceptionHandler;
+import pmc.private_medical_clinic.failureHandler.IncorrectPasswordException;
+import pmc.private_medical_clinic.utils.ImageUtils;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
 
@@ -17,12 +22,17 @@ public class MedicineServiceImpl implements MedicineService {
     @Autowired
     private MedicineRepo medicineRepo;
     @Override
-    public Medicine saveMedicine(MedicineDto medicineDto, Unit unit) {
+    public Medicine saveMedicine(MedicineDto medicineDto, Unit unit, MultipartFile file) throws IOException {
         Medicine medicine = new Medicine();
         medicine.setTenThuoc(medicineDto.getTenThuoc());
         medicine.setDeleted(false);
-        medicine.setImage(medicineDto.getImage());
+        if(file.isEmpty() == false) {
+            medicine.setImage(file.getBytes());
+        }
         medicine.setDonGia(medicineDto.getDonGia());
+        if(medicineDto.getSoLuong() <= 0) {
+            throw new GlobalExceptionHandler("Số lượng phải lớn hơn hoặc bằng 0");
+        }
         medicine.setSoLuong(medicineDto.getSoLuong());
         medicine.setUnit(unit);
         medicineRepo.save(medicine);
@@ -36,34 +46,34 @@ public class MedicineServiceImpl implements MedicineService {
 
     @Override
     public Medicine showMedicineById(Long medicineId) {
-        return medicineRepo.findById(medicineId).get();
+
+         Medicine medicine = medicineRepo.findById(medicineId).get();
+         return medicine;
     }
 
     @Override
     public Medicine showMedicineNotDeletedById(Long medicineId) {
-        return medicineRepo.FindMedicineNotDeletedById(medicineId).get();
+        return medicineRepo.FindMedicineNotDeletedById(medicineId).orElseThrow(() -> new RuntimeException("Not found medicine"));
     }
 
     @Override
     public Medicine deleteMedicine(Long medicineId) {
-        Medicine deletedMedicine = medicineRepo.FindMedicineNotDeletedById(medicineId).get();
+        Medicine deletedMedicine = medicineRepo.FindMedicineNotDeletedById(medicineId).orElseThrow(() -> new RuntimeException("Not found medicine"));
         deletedMedicine.setDeleted(true);
         return medicineRepo.save(deletedMedicine);
     }
 
     @Override
-    public Medicine updateMedicine(Long medicineId, MedicineDto medicineDto) {
-        Medicine updatedMedicine = medicineRepo.FindMedicineNotDeletedById(medicineId).get();
+    public Medicine updateMedicine(Long medicineId, MedicineDto medicineDto, MultipartFile file) throws IOException {
+        Medicine updatedMedicine = medicineRepo.FindMedicineNotDeletedById(medicineId).orElseThrow(() -> new RuntimeException("Not found medicine"));
 
         if(Objects.nonNull(medicineDto.getTenThuoc()) &&
         !"".equalsIgnoreCase(medicineDto.getTenThuoc())) {
             updatedMedicine.setTenThuoc(medicineDto.getTenThuoc());
         }
-        if(Objects.nonNull(medicineDto.getImage()) &&
-                !"".equalsIgnoreCase(medicineDto.getImage())) {
-            updatedMedicine.setImage(medicineDto.getImage());
+        if(file.isEmpty() == false) {
+            updatedMedicine.setImage(file.getBytes());
         }
-
         updatedMedicine.setSoLuong(medicineDto.getSoLuong());
         updatedMedicine.setDonGia(medicineDto.getDonGia());
         return medicineRepo.save(updatedMedicine);

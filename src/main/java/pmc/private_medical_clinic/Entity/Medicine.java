@@ -19,8 +19,9 @@ public class Medicine {
     private String tenThuoc;
     private long donGia;
     private long soLuong;
-    @Column(name = "image", columnDefinition = "TEXT")
-    private String image;
+    @Lob
+    @Column(name = "image", length = 65555)
+    private byte[] image;
     private boolean isDeleted;
     @ManyToOne (
             cascade = CascadeType.ALL,
@@ -28,7 +29,7 @@ public class Medicine {
     )
     @JoinColumn (
             name = "maDonVi",
-            referencedColumnName = "donViId"
+            referencedColumnName = "id"
     )
     private Unit unit;
 }
