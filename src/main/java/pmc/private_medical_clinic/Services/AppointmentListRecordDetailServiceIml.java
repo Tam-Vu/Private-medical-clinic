@@ -39,6 +39,8 @@ public class AppointmentListRecordDetailServiceIml implements AppointmentListRec
         appointmentListRecordDetail.setUsage(usage);
         appointmentListRecordDetail.setCount(appointmentListRecordDetailDto.getCount());
         appointmentListRecordDetail.setDrugPrice(appointmentListRecordDetailDto.getDrugPrice());
+        appointmentListRecordDetail.setStar(appointmentListRecordDetailDto.getStar());
+        appointmentListRecordDetail.setRating(appointmentListRecordDetailDto.getRating());
         appointmentListRecordDetailRepo.save(appointmentListRecordDetail);
         drug.setCount(drug.getCount() - appointmentListRecordDetailDto.getCount());
         drugRepo.save(drug);

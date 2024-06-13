@@ -30,4 +30,10 @@ public class AppointmentListRecordDetail {
 
     @Column(name = "drug_price")
     private Long drugPrice;
+
+    @Column(name="rating")
+    private String rating;
+
+    @Column(name="stars")
+    private Long star;
 }
